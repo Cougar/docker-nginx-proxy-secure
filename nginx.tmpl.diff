@@ -1,0 +1,30 @@
+--- nginx.tmpl.orig	2016-10-19 00:21:19.000000000 +0000
++++ nginx.tmpl	2017-01-05 13:41:13.000000000 +0000
+@@ -184,6 +184,13 @@
+                 {{ else if (exists "/etc/nginx/vhost.d/default_location") }}
+                 include /etc/nginx/vhost.d/default_location;
+                 {{ end }}
++                {{ if (exists (printf "/etc/nginx/access.d/%s_access" $host)) }}
++                include {{ printf "/etc/nginx/access.d/%s_access" $host}};
++                {{ else if (exists "/etc/nginx/access.d/default_access") }}
++                include /etc/nginx/access.d/default_access;
++                {{ else }}
++                deny all;
++                {{ end }}
+ 	}
+ }
+ 
+@@ -218,6 +225,13 @@
+                 {{ else if (exists "/etc/nginx/vhost.d/default_location") }}
+                 include /etc/nginx/vhost.d/default_location;
+                 {{ end }}
++                {{ if (exists (printf "/etc/nginx/access.d/%s_access" $host)) }}
++                include {{ printf "/etc/nginx/access.d/%s_access" $host}};
++                {{ else if (exists "/etc/nginx/access.d/default_access") }}
++                include /etc/nginx/access.d/default_access;
++                {{ else }}
++                deny all;
++                {{ end }}
+ 	}
+ }
+ 
